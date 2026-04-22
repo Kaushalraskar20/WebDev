@@ -1,0 +1,58 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<div class="container py-4">
+
+  <!-- Page Header -->
+  <div class="page-header d-flex justify-content-between align-items-center">
+    <div>
+      <h2><i class="bi bi-grid-3x3-gap me-2" style="color:#7c6af7"></i>My Sheets</h2>
+      <p>Organize your coding practice into sheets</p>
+    </div>
+    <a href="/sheet/create" class="btn btn-primary">
+      <i class="bi bi-plus-lg me-2"></i>New Sheet
+    </a>
+  </div>
+
+  <!-- Sheets Grid -->
+  <% if (sheets.length === 0) { %>
+    <div class="empty-state card">
+      <i class="bi bi-journal-plus" style="color:#7c6af7"></i>
+      <h5 class="text-muted">No sheets yet</h5>
+      <p class="text-muted small">Create your first sheet to start tracking progress</p>
+      <a href="/sheet/create" class="btn btn-primary mt-2">
+        <i class="bi bi-plus-lg me-2"></i>Create Sheet
+      </a>
+    </div>
+  <% } else { %>
+    <div class="row g-3">
+      <% sheets.forEach(sheet => { %>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+          <div class="card sheet-card h-100 p-3" onclick="location.href='/sheet/<%= sheet._id %>'">
+            <div class="d-flex align-items-start justify-content-between mb-3">
+              <div class="p-2 rounded" style="background:#7c6af720">
+                <i class="bi bi-journal-code fs-4" style="color:#7c6af7"></i>
+              </div>
+              <!-- Delete button — stops click propagation to card -->
+              <form action="/sheet/<%= sheet._id %>/delete" method="POST"
+                    onsubmit="return confirm('Delete this sheet and all its progress?')"
+                    onclick="event.stopPropagation()">
+                <button type="submit" class="btn btn-sm btn-link text-danger p-0" title="Delete">
+                  <i class="bi bi-trash3"></i>
+                </button>
+              </form>
+            </div>
+            <h5 class="card-title mb-1"><%= sheet.name %></h5>
+            <p class="text-muted small mb-0">
+              <i class="bi bi-calendar3 me-1"></i>
+              Created <%= sheet.createdAt.toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) %>
+            </p>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+
+</div>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bar Chart Example</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <h2>Students in Different Departments</h2>
+
+  <canvas id="myChart" width="400" height="200"></canvas>
+
+  <script>
+    const ctx = document.getElementById('myChart');
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Computer', 'Mechanical', 'Civil', 'Electrical'],
+        datasets: [{
+          label: 'Number of Students',
+          data: [120, 90, 70, 60],
+          borderWidth: 1
+        }]
+      }
+    });
+  </script>
+
+</body>
+</html>

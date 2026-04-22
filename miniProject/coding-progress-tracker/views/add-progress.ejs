@@ -1,0 +1,72 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<div class="container py-4">
+  <div style="max-width:500px; margin:0 auto;">
+
+    <!-- Back link -->
+    <a href="/sheet/<%= sheet._id %>" class="text-decoration-none text-muted small d-inline-flex align-items-center gap-1 mb-4">
+      <i class="bi bi-arrow-left"></i> Back to <%= sheet.name %>
+    </a>
+
+    <div class="card p-4">
+      <h4 class="mb-1" style="color:#e2e8f0; font-weight:700">
+        <i class="bi bi-bar-chart-line me-2" style="color:#7c6af7"></i>Log Progress
+      </h4>
+      <p class="text-muted small mb-4">
+        Adding entry for <strong style="color:#7c6af7"><%= sheet.name %></strong>
+      </p>
+
+      <% if (error) { %>
+        <div class="alert alert-danger"><i class="bi bi-exclamation-triangle me-2"></i><%= error %></div>
+      <% } %>
+
+      <form action="/progress/add" method="POST">
+        <!-- Hidden sheetId -->
+        <input type="hidden" name="sheetId" value="<%= sheet._id %>" />
+
+        <div class="mb-3">
+          <label class="form-label text-muted small">Date</label>
+          <input
+            type="date"
+            name="date"
+            class="form-control"
+            value="<%= new Date().toISOString().split('T')[0] %>"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label text-muted small">Platform</label>
+          <select name="platform" class="form-select" required>
+            <option value="" disabled selected>Select platform</option>
+            <% platforms.forEach(p => { %>
+              <option value="<%= p %>"><%= p %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label text-muted small">Problems Solved</label>
+          <input
+            type="number"
+            name="solved"
+            class="form-control"
+            placeholder="e.g. 5"
+            min="1"
+            required
+          />
+        </div>
+
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary flex-grow-1">
+            <i class="bi bi-check2-circle me-2"></i>Save Progress
+          </button>
+          <a href="/sheet/<%= sheet._id %>" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

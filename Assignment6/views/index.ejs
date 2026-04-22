@@ -1,0 +1,111 @@
+<%- include('partials/header') %>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-layout">
+      <div class="hero-copy">
+        <p class="hero-label">Trusted healthcare &amp; professional services</p>
+        <h1>Book appointments with the <em>right provider,</em> in minutes.</h1>
+        <p class="hero-desc">
+          Find experienced specialists, compare services, and reserve your preferred
+          time slot — fast, simple, and stress-free.
+        </p>
+        <div class="hero-actions">
+          <a href="/appointments/new" class="btn btn-primary">Book an Appointment</a>
+          <a href="/providers" class="btn btn-outline">Browse Providers</a>
+        </div>
+      </div>
+
+      <div class="hero-panel">
+        <div class="section-label">Why CareConnect?</div>
+        <div class="why-item">
+          <div class="why-icon">✓</div>
+          <div>
+            <h4>Verified Providers</h4>
+            <p>Experienced professionals across multiple specialties, all in one place.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">⏱</div>
+          <div>
+            <h4>Easy Booking</h4>
+            <p>Transparent fees and time slots — book in under 2 minutes.</p>
+          </div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon">📋</div>
+          <div>
+            <h4>Track Status</h4>
+            <p>Monitor your appointment from request to completion.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stats-strip">
+  <div class="container">
+    <div class="stats-row">
+      <div class="stat-item">
+        <div class="stat-value"><%= stats && stats.providerCount ? stats.providerCount : 0 %><span>+</span></div>
+        <div class="stat-label">Providers Available</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value"><%= stats && stats.appointmentCount ? stats.appointmentCount : 0 %></div>
+        <div class="stat-label">Total Appointments</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value"><%= stats && stats.specialtyCount ? stats.specialtyCount : 0 %></div>
+        <div class="stat-label">Specialties Covered</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value"><%= stats && stats.pendingCount ? stats.pendingCount : 0 %></div>
+        <div class="stat-label">Pending Requests</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-heading">
+      <div class="section-label">Our Specialists</div>
+      <h2>Featured Providers</h2>
+      <p>Explore top professionals and book a time that works for you.</p>
+    </div>
+
+    <% if (featuredProviders && featuredProviders.length) { %>
+      <div class="provider-grid">
+        <% featuredProviders.forEach(function(provider) { %>
+          <article class="provider-card">
+            <div class="provider-card__image-wrap">
+              <img src="<%= provider.image %>" alt="<%= provider.name %>" class="provider-card__image">
+            </div>
+            <div class="provider-card__content">
+              <div class="provider-card__top">
+                <h3><%= provider.name %></h3>
+                <span class="tag"><%= provider.specialty %></span>
+              </div>
+              <p class="provider-meta">
+                <strong><%= provider.experience %> yrs</strong> experience &middot; <%= provider.location %>
+              </p>
+              <p style="font-size:0.9rem;"><%= provider.description %></p>
+              <div class="provider-card__footer">
+                <span class="fee">₹<%= provider.fee %></span>
+                <a href="/appointments/new?provider=<%= provider._id %>" class="btn btn-primary btn-sm">Book Now</a>
+              </div>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="empty-state">
+        <h3>No providers available right now</h3>
+        <p>Please check back shortly for provider listings.</p>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

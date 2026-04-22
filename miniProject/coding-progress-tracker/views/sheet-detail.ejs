@@ -1,0 +1,115 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<div class="container py-4">
+
+  <!-- Back + Header -->
+  <a href="/dashboard" class="text-decoration-none text-muted small d-inline-flex align-items-center gap-1 mb-3">
+    <i class="bi bi-arrow-left"></i> Back to Dashboard
+  </a>
+
+  <div class="page-header d-flex justify-content-between align-items-center">
+    <div>
+      <h2>
+        <i class="bi bi-journal-code me-2" style="color:#7c6af7"></i><%= sheet.name %>
+      </h2>
+      <p>All your progress entries for this sheet</p>
+    </div>
+    <a href="/progress/add?sheetId=<%= sheet._id %>" class="btn btn-primary">
+      <i class="bi bi-plus-lg me-2"></i>Add Progress
+    </a>
+  </div>
+
+  <!-- Stats Summary -->
+  <% if (progress.length > 0) {
+    const totalSolved = progress.reduce((sum, p) => sum + p.solved, 0);
+    const platforms = [...new Set(progress.map(p => p.platform))];
+  %>
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="card p-3 text-center">
+        <div class="fs-2 fw-bold" style="color:#7c6af7"><%= totalSolved %></div>
+        <div class="text-muted small">Total Solved</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card p-3 text-center">
+        <div class="fs-2 fw-bold" style="color:#7c6af7"><%= progress.length %></div>
+        <div class="text-muted small">Sessions</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card p-3 text-center">
+        <div class="fs-2 fw-bold" style="color:#7c6af7"><%= platforms.length %></div>
+        <div class="text-muted small">Platforms</div>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card p-3 text-center">
+        <div class="fs-2 fw-bold" style="color:#7c6af7">
+          <%= Math.round(totalSolved / progress.length) %>
+        </div>
+        <div class="text-muted small">Avg / Session</div>
+      </div>
+    </div>
+  </div>
+  <% } %>
+
+  <!-- Progress Table -->
+  <% if (progress.length === 0) { %>
+    <div class="empty-state card">
+      <i class="bi bi-bar-chart-line" style="color:#7c6af7"></i>
+      <h5 class="text-muted">No progress logged yet</h5>
+      <p class="text-muted small">Add your first entry to start tracking</p>
+      <a href="/progress/add?sheetId=<%= sheet._id %>" class="btn btn-primary mt-2">
+        <i class="bi bi-plus-lg me-2"></i>Add Progress
+      </a>
+    </div>
+  <% } else { %>
+    <div class="card">
+      <div class="table-responsive">
+        <table class="table progress-table mb-0">
+          <thead>
+            <tr style="border-bottom: 1px solid #2d3148;">
+              <th class="px-4 py-3">#</th>
+              <th class="py-3">Date</th>
+              <th class="py-3">Platform</th>
+              <th class="py-3">Solved</th>
+              <th class="py-3">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% progress.forEach((entry, i) => { %>
+              <tr>
+                <td class="px-4 text-muted"><%= i + 1 %></td>
+                <td>
+                  <i class="bi bi-calendar3 me-2 text-muted"></i>
+                  <%= new Date(entry.date).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) %>
+                </td>
+                <td>
+                  <span class="badge-platform platform-<%= entry.platform %>">
+                    <%= entry.platform %>
+                  </span>
+                </td>
+                <td>
+                  <span class="solved-badge"><%= entry.solved %> problems</span>
+                </td>
+                <td>
+                  <form action="/progress/<%= entry._id %>/delete" method="POST"
+                        onsubmit="return confirm('Delete this entry?')">
+                    <button type="submit" class="btn btn-sm btn-link text-danger p-0">
+                      <i class="bi bi-trash3"></i>
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% } %>
+
+</div>
+
+<%- include('partials/footer') %>

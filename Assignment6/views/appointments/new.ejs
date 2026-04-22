@@ -1,0 +1,68 @@
+<%- include('../partials/header') %>
+
+<section class="section">
+  <div class="container" style="max-width:760px;">
+    <div class="section-heading">
+      <div class="section-label">Schedule a Visit</div>
+      <h1>Book a New Appointment</h1>
+      <p>Complete the form below to request an appointment with your preferred provider.</p>
+    </div>
+
+    <form action="/appointments" method="POST" class="booking-form">
+      <div class="form-grid">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="customerName">Full Name</label>
+            <input type="text" id="customerName" name="customerName" placeholder="Your full name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="your@email.com" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="+91 00000 00000" required>
+          </div>
+          <div class="form-group">
+            <label for="provider">Select Provider</label>
+            <select id="provider" name="provider" required>
+              <option value="">Choose a provider</option>
+              <% const selectedProviderId = typeof selectedProvider !== 'undefined' && selectedProvider ? String(selectedProvider) : (typeof providerId !== 'undefined' && providerId ? String(providerId) : ''); %>
+              <% providers.forEach(function(provider) { %>
+                <option value="<%= provider._id %>" <%= selectedProviderId === String(provider._id) ? 'selected' : '' %>>
+                  <%= provider.name %> — <%= provider.specialty %>
+                </option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="appointmentDate">Preferred Date</label>
+            <input type="date" id="appointmentDate" name="appointmentDate" required>
+          </div>
+          <div class="form-group">
+            <label for="slot">Preferred Time Slot</label>
+            <input type="text" id="slot" name="slot" placeholder="e.g. 10:00 AM – 10:30 AM" required>
+          </div>
+        </div>
+
+        <div class="form-group form-group-full">
+          <label for="reason">Reason for Appointment</label>
+          <textarea id="reason" name="reason" placeholder="Briefly describe the purpose of your visit…" required></textarea>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Submit Booking Request</button>
+        <a href="/providers" class="btn btn-outline">View Providers</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

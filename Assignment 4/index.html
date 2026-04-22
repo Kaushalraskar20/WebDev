@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Internship Analysis Dashboard</title>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- D3.js (for CSV parsing) -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <h1>Internship Analysis Dashboard</h1>
+    <p class="tag">Upload CSV and analyze internship data</p>
+  </header>
+
+  <section class="controls">
+    <input type="file" id="csvFile" accept=".csv" />
+  </section>
+
+  <main class="dashboard">
+
+    <!-- Summary Cards -->
+    <div class="summary-cards">
+      <div class="card">
+        <h3>Total Internships</h3>
+        <div class="value" id="totalInternships">0</div>
+      </div>
+
+      <div class="card">
+        <h3>Paid Internships</h3>
+        <div class="value" id="paidInternships">0</div>
+      </div>
+
+      <div class="card">
+        <h3>Unpaid Internships</h3>
+        <div class="value" id="unpaidInternships">0</div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <section class="charts">
+
+      <div class="chart-card">
+        <h2>Internship Domain Distribution</h2>
+        <canvas id="domainChart"></canvas>
+      </div>
++ 
+      <div class="chart-card">
+        <h2>Paid vs Unpaid</h2>
+        <canvas id="paidChart"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <h2>Internship Type (On/Off Campus)</h2>
+        <canvas id="typeChart"></canvas>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

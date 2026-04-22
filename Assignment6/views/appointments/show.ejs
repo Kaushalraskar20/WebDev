@@ -1,0 +1,70 @@
+<%- include('../partials/header') %>
+
+<section class="section">
+  <div class="container" style="max-width:900px;">
+    <div style="margin-bottom:1.5rem;">
+      <a href="/appointments" class="btn btn-outline btn-sm">← Back to Appointments</a>
+    </div>
+
+    <div class="section-heading">
+      <div class="section-label">Appointment Details</div>
+      <h1>Booking Summary</h1>
+    </div>
+
+    <article class="detail-card">
+      <div class="detail-card__header">
+        <div>
+          <h2><%= appointment.customerName %></h2>
+          <p class="muted-text" style="margin-top:0.3rem;"><%= appointment.email %> &middot; <%= appointment.phone %></p>
+        </div>
+        <span class="status-badge <%= appointment.status ? appointment.status.toLowerCase() : 'pending' %>">
+          <%= appointment.status || 'Pending' %>
+        </span>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-group">
+          <h3>Provider Information</h3>
+          <p><strong>Name</strong> <%= appointment.provider ? appointment.provider.name : 'Not assigned' %></p>
+          <p><strong>Specialty</strong> <%= appointment.provider ? appointment.provider.specialty : 'N/A' %></p>
+          <p><strong>Location</strong> <%= appointment.provider ? appointment.provider.location : 'N/A' %></p>
+          <p><strong>Consultation Fee</strong> <%= appointment.provider ? '₹' + appointment.provider.fee : 'N/A' %></p>
+        </div>
+        <div class="detail-group">
+          <h3>Appointment Information</h3>
+          <p><strong>Date</strong> <%= appointment.appointmentDate %></p>
+          <p><strong>Time Slot</strong> <%= appointment.slot %></p>
+          <p><strong>Reason</strong> <%= appointment.reason %></p>
+          <p><strong>Notes</strong> <%= appointment.notes ? appointment.notes : 'None' %></p>
+        </div>
+      </div>
+
+      <div class="detail-actions">
+        <div class="status-actions">
+          <form action="/appointments/<%= appointment._id %>/status?_method=PATCH" method="POST" class="inline-form">
+            <input type="hidden" name="status" value="Confirmed">
+            <button type="submit" class="btn btn-success btn-sm">✓ Confirm</button>
+          </form>
+          <form action="/appointments/<%= appointment._id %>/status?_method=PATCH" method="POST" class="inline-form">
+            <input type="hidden" name="status" value="Completed">
+            <button type="submit" class="btn btn-secondary btn-sm">✓ Complete</button>
+          </form>
+          <form action="/appointments/<%= appointment._id %>/status?_method=PATCH" method="POST" class="inline-form">
+            <input type="hidden" name="status" value="Cancelled">
+            <button type="submit" class="btn btn-warning btn-sm">✕ Cancel</button>
+          </form>
+        </div>
+        <div>
+          <form action="/appointments/<%= appointment._id %>?_method=DELETE" method="POST" class="inline-form">
+            <button type="submit" class="btn btn-danger btn-sm"
+              onclick="return confirm('Delete this appointment permanently?')">
+              Delete
+            </button>
+          </form>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

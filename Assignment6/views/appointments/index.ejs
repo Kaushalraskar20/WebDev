@@ -1,0 +1,50 @@
+<%- include('../partials/header') %>
+
+<section class="section">
+  <div class="container">
+    <div class="split" style="margin-bottom:2.5rem;">
+      <div>
+        <div class="section-label">Your Bookings</div>
+        <h1>Appointments</h1>
+        <p style="color:var(--ink-muted);margin-top:0.4rem;">Review and manage all booked appointments.</p>
+      </div>
+      <a href="/appointments/new" class="btn btn-primary">+ New Appointment</a>
+    </div>
+
+    <% if (appointments && appointments.length) { %>
+      <div class="appointment-grid">
+        <% appointments.forEach(function(appointment) { %>
+          <article class="appointment-card">
+            <div class="appointment-card__header">
+              <div>
+                <h3><%= appointment.customerName %></h3>
+                <p class="muted-text"><%= appointment.email %></p>
+              </div>
+              <span class="status-badge <%= appointment.status ? appointment.status.toLowerCase() : 'pending' %>">
+                <%= appointment.status || 'Pending' %>
+              </span>
+            </div>
+            <div class="appointment-card__body">
+              <p><strong>Provider:</strong> <%= appointment.provider ? appointment.provider.name : 'Not assigned' %></p>
+              <p><strong>Specialty:</strong> <%= appointment.provider ? appointment.provider.specialty : 'N/A' %></p>
+              <p><strong>Date:</strong> <%= appointment.appointmentDate %></p>
+              <p><strong>Slot:</strong> <%= appointment.slot %></p>
+              <p><strong>Phone:</strong> <%= appointment.phone %></p>
+            </div>
+            <div class="appointment-card__footer">
+              <a href="/appointments/<%= appointment._id %>" class="btn btn-outline btn-sm" style="width:100%;justify-content:center;">View Details →</a>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="empty-state">
+        <h3>No appointments yet</h3>
+        <p>Start by booking your first appointment with one of our providers.</p>
+        <a href="/appointments/new" class="btn btn-primary">Book Appointment</a>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
